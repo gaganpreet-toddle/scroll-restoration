@@ -1,6 +1,6 @@
-import { readState, saveState } from 'history/lib/DOMStateStorage';
+import { readState, saveState } from "history/lib/DOMStateStorage";
 
-const STATE_KEY_PREFIX = '@@scroll|';
+const STATE_KEY_PREFIX = "@@scroll|";
 
 export default class StateStorage {
   constructor(router) {
@@ -16,7 +16,8 @@ export default class StateStorage {
   }
 
   getStateKey(location, key) {
-    const locationKey = location.key || this.getFallbackLocationKey(location);
+    const locationKey =
+      location.pathname || this.getFallbackLocationKey(location);
     const stateKeyBase = `${STATE_KEY_PREFIX}${locationKey}`;
     return key == null ? stateKeyBase : `${stateKeyBase}|${key}`;
   }

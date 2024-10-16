@@ -1,18 +1,19 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import warning from 'warning';
+import PropTypes from "prop-types";
+import React from "react";
+import ReactDOM from "react-dom";
+import warning from "warning";
 
 const propTypes = {
   scrollKey: PropTypes.string.isRequired,
   shouldUpdateScroll: PropTypes.func,
   children: PropTypes.element.isRequired,
+  elementRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]), // New prop
 };
 
 const contextTypes = {
-  // This is necessary when rendering on the client. However, when rendering on
-  // the server, this container will do nothing, and thus does not require the
-  // scroll behavior context.
   scrollBehavior: PropTypes.object,
 };
 
@@ -20,40 +21,46 @@ class ScrollContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    // We don't re-register if the scroll key changes, so make sure we
-    // unregister with the initial scroll key just in case the user changes it.
     this.scrollKey = props.scrollKey;
   }
 
   componentDidMount() {
+    const { elementRef, scrollKey } = this.props;
+    const element = elementRef
+      ? elementRef.current
+      : ReactDOM.findDOMNode(this); // eslint-disable-line react/no-find-dom-node
+
     this.context.scrollBehavior.registerElement(
-      this.props.scrollKey,
-      ReactDOM.findDOMNode(this), // eslint-disable-line react/no-find-dom-node
-      this.shouldUpdateScroll,
+      scrollKey,
+      element,
+      this.shouldUpdateScroll
     );
 
-    // Only keep around the current DOM node in development, as this is only
-    // for emitting the appropriate warning.
     if (__DEV__) {
-      this.domNode = ReactDOM.findDOMNode(this); // eslint-disable-line react/no-find-dom-node
+      this.domNode = element;
     }
   }
 
   componentWillReceiveProps(nextProps) {
     warning(
       nextProps.scrollKey === this.props.scrollKey,
-      '<ScrollContainer> does not support changing scrollKey.',
+      "<ScrollContainer> does not support changing scrollKey."
     );
   }
 
   componentDidUpdate() {
     if (__DEV__) {
+      const { elementRef } = this.props;
+      const element = elementRef
+        ? elementRef.current
+        : ReactDOM.findDOMNode(this); // eslint-disable-line react/no-find-dom-node
+
       const prevDomNode = this.domNode;
-      this.domNode = ReactDOM.findDOMNode(this); // eslint-disable-line react/no-find-dom-node
+      this.domNode = element;
 
       warning(
         this.domNode === prevDomNode,
-        '<ScrollContainer> does not support changing DOM node.',
+        "<ScrollContainer> does not support changing DOM node."
       );
     }
   }
@@ -72,7 +79,7 @@ class ScrollContainer extends React.Component {
     return shouldUpdateScroll.call(
       this.context.scrollBehavior.scrollBehavior,
       prevRouterProps,
-      routerProps,
+      routerProps
     );
   };
 
