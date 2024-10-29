@@ -4969,10 +4969,9 @@ scheduler@^0.19.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-scroll-behavior@^0.9.5:
+"scroll-behavior@git+https://github.com/jashandeep-toddleapp/scroll-behavior.git#develop-beta":
   version "0.9.12"
-  resolved "https://registry.yarnpkg.com/scroll-behavior/-/scroll-behavior-0.9.12.tgz#1c22d273ec4ce6cd4714a443fead50227da9424c"
-  integrity sha512-18sirtyq1P/VsBX6O/vgw20Np+ngduFXEMO4/NDFXabdOKBL2kjPVUpz1y0+jm99EWwFJafxf5/tCyMeXt9Xyg==
+  resolved "git+https://github.com/jashandeep-toddleapp/scroll-behavior.git#dc0f663dd90601c3e89fc0499ae530a1253811a1"
   dependencies:
     dom-helpers "^3.4.0"
     invariant "^2.2.4"
