@@ -5,12 +5,11 @@ import warning from "warning";
 
 const propTypes = {
   scrollKey: PropTypes.string.isRequired,
-  shouldUpdateScroll: PropTypes.func,
   children: PropTypes.element.isRequired,
   elementRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  ]), // New prop
+  ]),
 };
 
 const contextTypes = {
@@ -70,17 +69,13 @@ class ScrollContainer extends React.Component {
   }
 
   shouldUpdateScroll = (prevRouterProps, routerProps) => {
-    const { shouldUpdateScroll } = this.props;
-    if (!shouldUpdateScroll) {
+    if (
+      routerProps.location.action === "POP" ||
+      routerProps.location.state.backButtonAction === true
+    ) {
       return true;
     }
-
-    // Hack to allow accessing scrollBehavior._stateStorage.
-    return shouldUpdateScroll.call(
-      this.context.scrollBehavior.scrollBehavior,
-      prevRouterProps,
-      routerProps
-    );
+    return false;
   };
 
   render() {
