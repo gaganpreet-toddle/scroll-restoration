@@ -71,7 +71,7 @@ class ScrollContainer extends React.Component {
   shouldUpdateScroll = (prevRouterProps, routerProps) => {
     if (
       routerProps.location.action === "POP" ||
-      routerProps.location.state.backButtonAction === true
+      routerProps.location.state.restoreScroll === true
     ) {
       return true;
     }
