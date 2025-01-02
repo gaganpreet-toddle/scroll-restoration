@@ -1,7 +1,13 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+/* eslint-disable quotes */
+import PropTypes from "prop-types";
+import React from "react";
 
-import StateStorage from './StateStorage';
+import StateStorage from "./StateStorage";
+
+export const MyRouterPropsContext = React.createContext({
+  prevRouterProps: null,
+  currentRouterProps: null,
+});
 
 const propTypes = {
   shouldUpdateScroll: PropTypes.func,
@@ -21,6 +27,11 @@ class ScrollBehaviorContext extends React.Component {
     const { routerProps } = props;
     const { router } = routerProps;
 
+    this.state = {
+      prevRouterProps: null,
+      currentRouterProps: routerProps,
+    };
+
     this.scrollBehavior = props.createScrollBehavior({
       addTransitionHook: router.listenBefore,
       stateStorage: new StateStorage(router),
@@ -35,6 +46,19 @@ class ScrollBehaviorContext extends React.Component {
     return {
       scrollBehavior: this,
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // Compare nextProps with prevState
+    if (
+      nextProps.routerProps.location !== prevState.currentRouterProps.location
+    ) {
+      return {
+        prevRouterProps: prevState.currentRouterProps,
+        currentRouterProps: nextProps.routerProps,
+      };
+    }
+    return null; // No state update
   }
 
   componentDidUpdate(prevProps) {
@@ -60,13 +84,18 @@ class ScrollBehaviorContext extends React.Component {
 
     // Hack to allow accessing scrollBehavior._stateStorage.
     return shouldUpdateScroll.call(
-      this.scrollBehavior, prevRouterProps, routerProps,
+      this.scrollBehavior,
+      prevRouterProps,
+      routerProps
     );
   };
 
   registerElement = (key, element, shouldUpdateScroll) => {
     this.scrollBehavior.registerElement(
-      key, element, shouldUpdateScroll, this.props.routerProps,
+      key,
+      element,
+      shouldUpdateScroll,
+      this.props.routerProps
     );
   };
 
@@ -75,7 +104,15 @@ class ScrollBehaviorContext extends React.Component {
   };
 
   render() {
-    return this.props.children;
+    const { children } = this.props;
+    const { prevRouterProps, currentRouterProps } = this.state;
+    return (
+      <MyRouterPropsContext.Provider
+        value={{ prevRouterProps, currentRouterProps }}
+      >
+        {children}
+      </MyRouterPropsContext.Provider>
+    );
   }
 }
 

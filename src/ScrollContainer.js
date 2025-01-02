@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import PropTypes from "prop-types";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -69,10 +70,14 @@ class ScrollContainer extends React.Component {
   }
 
   shouldUpdateScroll = (prevRouterProps, routerProps) => {
-    if (
-      routerProps.location.action === "POP" ||
-      routerProps.location.state.restoreScroll === true
-    ) {
+    if (routerProps.location.action === "POP") {
+      if (prevRouterProps == null) {
+        return false;
+      }
+      return true;
+    }
+
+    if (routerProps.location.state.restoreScroll === true) {
       return true;
     }
     return false;
