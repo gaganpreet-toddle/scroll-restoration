@@ -7,6 +7,7 @@ import warning from "warning";
 const propTypes = {
   scrollKey: PropTypes.string.isRequired,
   children: PropTypes.element.isRequired,
+  shouldUpdateScroll: PropTypes.func,
   elementRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
@@ -70,17 +71,23 @@ class ScrollContainer extends React.Component {
   }
 
   shouldUpdateScroll = (prevRouterProps, routerProps) => {
-    if (routerProps.location.action === "POP") {
-      if (prevRouterProps == null) {
-        return false;
-      }
+    const shouldUpdateScroll =
+      this.props.shouldUpdateScroll ||
+      this.context.scrollBehavior.shouldUpdateScroll;
+
+    if (!shouldUpdateScroll) {
       return true;
     }
 
-    if (routerProps.location.state.restoreScroll === true) {
-      return true;
-    }
-    return false;
+    return shouldUpdateScroll.call(
+      this.context.scrollBehavior.scrollBehavior,
+      this.props.shouldUpdateScroll
+        ? prevRouterProps
+        : this.context.scrollBehavior.state.prevRouterProps,
+      this.props.shouldUpdateScroll
+        ? routerProps
+        : this.context.scrollBehavior.state.currentRouterProps
+    );
   };
 
   render() {
