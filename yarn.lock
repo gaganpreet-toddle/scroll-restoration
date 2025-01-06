@@ -4971,7 +4971,7 @@ scheduler@^0.19.1:
 
 "scroll-behavior@git+https://github.com/jashandeep-toddleapp/scroll-behavior.git#develop-beta":
   version "0.9.12"
-  resolved "git+https://github.com/jashandeep-toddleapp/scroll-behavior.git#dc0f663dd90601c3e89fc0499ae530a1253811a1"
+  resolved "git+https://github.com/jashandeep-toddleapp/scroll-behavior.git#5c77edc0e27d38e89137122ca947ec8423cb2eb0"
   dependencies:
     dom-helpers "^3.4.0"
     invariant "^2.2.4"

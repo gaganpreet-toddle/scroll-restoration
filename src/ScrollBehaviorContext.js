@@ -86,7 +86,8 @@ class ScrollBehaviorContext extends React.Component {
     return shouldUpdateScroll.call(
       this.scrollBehavior,
       prevRouterProps,
-      routerProps
+      routerProps,
+      false
     );
   };
 

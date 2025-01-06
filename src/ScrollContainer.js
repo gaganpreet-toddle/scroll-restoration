@@ -73,7 +73,7 @@ class ScrollContainer extends React.Component {
   shouldUpdateScroll = (prevRouterProps, routerProps) => {
     const shouldUpdateScroll =
       this.props.shouldUpdateScroll ||
-      this.context.scrollBehavior.shouldUpdateScroll;
+      this.context.scrollBehavior.props.shouldUpdateScroll;
 
     if (!shouldUpdateScroll) {
       return true;
@@ -86,7 +86,8 @@ class ScrollContainer extends React.Component {
         : this.context.scrollBehavior.state.prevRouterProps,
       this.props.shouldUpdateScroll
         ? routerProps
-        : this.context.scrollBehavior.state.currentRouterProps
+        : this.context.scrollBehavior.state.currentRouterProps,
+      true
     );
   };
 
