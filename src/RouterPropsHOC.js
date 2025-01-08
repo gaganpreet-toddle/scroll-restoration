@@ -10,6 +10,7 @@ function withRouterPropsContext(WrappedComponent) {
 
     const isPopAction = currentRouterProps.location.action === "POP";
     const isRestoreScroll =
+      currentRouterProps.location.state &&
       currentRouterProps.location.state.restoreScroll === true;
 
     // Logic to fetch new data or not
