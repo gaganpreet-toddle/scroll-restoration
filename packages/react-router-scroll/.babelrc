@@ -1,0 +1,10 @@
+{
+  "presets": [
+    ["env", {
+      "loose": true
+    }],
+    "stage-1",
+    "react"
+  ],
+  "plugins": ["dev-expression", "add-module-exports"]
+}
