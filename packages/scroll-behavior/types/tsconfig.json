@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["es2015", "dom"],
+    "strict": true,
+    "types": [],
+    "noEmit": true,
+    "baseUrl": "."
+  }
+}
