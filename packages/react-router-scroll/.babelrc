@@ -1,10 +1,20 @@
 {
   "presets": [
-    ["env", {
-      "loose": true
-    }],
-    "stage-1",
-    "react"
+    [
+      "@babel/preset-env",
+      {
+        // debug: true,
+        "modules": false,
+
+        "targets": {
+          // read more about this here: https://babeljs.io/docs/options#targetsesmodules
+          "esmodules": true
+          // browser targets gets picked from .browserslistrc
+        },
+        "useBuiltIns": false
+      }
+    ],
+    "@babel/preset-react"
   ],
-  "plugins": ["dev-expression", "add-module-exports"]
+  "plugins": ["dev-expression"]
 }

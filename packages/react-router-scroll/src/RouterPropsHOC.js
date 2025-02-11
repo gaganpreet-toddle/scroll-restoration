@@ -9,8 +9,9 @@ function withRouterPropsContext(WrappedComponent) {
       React.useContext(MyRouterPropsContext);
 
     const prevFilters = React.useRef(null);
+    const prevOrgId = React.useRef(null);
 
-    const fetchNewDataFunc = (filter) => {
+    const fetchNewDataFunc = (filter, orgId) => {
       const prev = JSON.stringify(prevFilters.current);
       const current = JSON.stringify(filter);
 
@@ -31,11 +32,32 @@ function withRouterPropsContext(WrappedComponent) {
         fetchNew = false;
       }
 
-      if (prevFilters.current !== null && prev !== current) {
+      if (
+        prevOrgId.current === orgId &&
+        prevFilters.current !== null &&
+        prev !== current
+      ) {
         fetchNew = true;
       }
 
+      if (prevFilters.current === null) {
+        console.log("Prev Filters is null");
+      } else {
+        console.log("Prev Filters Exist : ", prevFilters.current);
+      }
+
+      if (prev === current) {
+        console.log("Prev and Current are same");
+      } else {
+        console.log("Prev and Current are different");
+        console.log("Prev : ", prev);
+        console.log("Current : ", current);
+      }
+
       prevFilters.current = filter;
+      prevOrgId.current = orgId;
+
+      console.log("FetchNew Data : ", fetchNew);
       return fetchNew;
     };
 
@@ -50,4 +72,4 @@ function withRouterPropsContext(WrappedComponent) {
   };
 }
 
-export default withRouterPropsContext;
+export { withRouterPropsContext };

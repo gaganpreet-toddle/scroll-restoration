@@ -1,18 +1,4 @@
 module.exports = (api) => ({
-  presets: [
-    [
-      '@4c',
-      {
-        targets: {},
-        modules: api.env() === 'esm' ? false : 'commonjs',
-      },
-    ],
-  ],
+  presets: ['@babel/preset-env', '@babel/preset-react'],
   plugins: [api.env() !== 'esm' && 'add-module-exports'].filter(Boolean),
-
-  env: {
-    test: {
-      plugins: ['istanbul'],
-    },
-  },
 });

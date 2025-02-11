@@ -7,13 +7,13 @@ function defaultCreateScrollBehavior(config) {
   return new ScrollBehavior(config);
 }
 
-export default function useScroll(shouldUpdateScrollOrConfig) {
+export function useScroll(shouldUpdateScrollOrConfig) {
   let shouldUpdateScroll;
   let createScrollBehavior;
 
   if (
     !shouldUpdateScrollOrConfig ||
-    typeof shouldUpdateScrollOrConfig === 'function'
+    typeof shouldUpdateScrollOrConfig === "function"
   ) {
     shouldUpdateScroll = shouldUpdateScrollOrConfig;
     createScrollBehavior = defaultCreateScrollBehavior;

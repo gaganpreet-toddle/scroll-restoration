@@ -99,4 +99,4 @@ class ScrollContainer extends React.Component {
 ScrollContainer.propTypes = propTypes;
 ScrollContainer.contextTypes = contextTypes;
 
-export default ScrollContainer;
+export { ScrollContainer };
